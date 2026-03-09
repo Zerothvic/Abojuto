@@ -1,7 +1,7 @@
-import app from '../health-center-backend/src/utils/app.js';
-import { connectDB } from '../health-center-backend/src/config/db.js'; // Import the new config
+import app from './src/app.js';
+import { connectDB } from './src/config/db.js'; // Import the new config
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3500;
 
 const startServer = async () => {
   try {
