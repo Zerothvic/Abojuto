@@ -7,10 +7,10 @@ const PORT = process.env.PORT || 3500;
 
 const startServer = async () => {
   try {
-    await connectDB(); // This now works!
+    await connectDB();
     
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      console.log(`Server running on http://localhost:${PORT}/api/v1/`);
     });
   } catch (error) {
     console.error(error);

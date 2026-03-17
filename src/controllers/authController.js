@@ -1,5 +1,23 @@
-import { loginUser, logoutUser } from "../services/authService.js";
+import { registerUser, loginUser, logoutUser } from "../services/authService.js";
 
+const register = async (req, res) => {
+  try {
+    // Pass the request body to the service
+    const user = await registerUser(req.body);
+
+    res.status(201).json({
+      status: "success",
+      message: "User registered successfully",
+      data: { user },
+    });
+  } catch (error) {
+    // Handle specific errors like "User already exists"
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
 
 const login = async (req, res) => {
   try {
@@ -34,4 +52,4 @@ const logout = (req, res) => {
   res.status(200).json(result);
 };
 
-export { login, logout };
+export { register, login, logout };

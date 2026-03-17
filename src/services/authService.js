@@ -3,6 +3,52 @@ import bcrypt from "bcrypt";
 import User from "../models/User.js";
 
 
+export const registerUser = async (userData) => {
+  const { name, email, password, role, phone, specialization, isActive } = userData;
+
+  // 1. Check if user already exists
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    throw new Error("A user with this email already exists.");
+  }
+
+  // 2. Create the user 
+  // (Password hashing is handled by the pre-save hook in the User Model)
+  const newUser = await User.create({
+    name,
+    email,
+    password,
+    role,
+    phone,
+    specialization,
+    isActive
+  });
+
+  // 3. Return user object without the password
+  const userResponse = newUser.toObject();
+  delete userResponse.password;
+  
+  return userResponse;
+};
+
+/**
+ * Fetches all staff users, optionally filtered by role
+ */
+export const getAllUsers = async (filter = {}) => {
+  return await User.find(filter).select("-password");
+};
+
+/**
+ * Finds a specific user by ID
+ */
+export const getUserById = async (userId) => {
+  const user = await User.findById(userId).select("-password");
+  if (!user) {
+    throw new Error("User not found.");
+  }
+  return user;
+};
+
 export const loginUser = async (email, password) => {
   // Check if user exists
   const user = await User.findOne({ email });
