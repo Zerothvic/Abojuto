@@ -2,17 +2,14 @@ import { Router } from 'express';
 import { authenticate } from '../middlewares/authMiddleware.js';
 import { authorize } from '../middlewares/roleMiddleware.js';
 import { login, logout } from '../controllers/authController.js';
-
-
-// Controller imports (to be created by the team)
 import * as authCtrl from '../controllers/authController.js';
-// import * as dashCtrl from '../../controllers/dashController.js';
+import * as getDashboard from '../controllers/dashboardController.js';
 import { 
   createConsultation,
   getAllConsultations,
   getConsultationById
-} from "../controllers/consultationService.js";
-import { createPatient, getAllPatients, getPatientById, updatePatient } from '../controllers/patientController.js';
+} from "../services/consultationService.js";
+import { createPatient, getAllPatients, getPatientById, updatePatient } from '../services/patientService.js';
 
 const router = Router();
  
@@ -26,7 +23,7 @@ router.use(authenticate);
 
 router.post('/logout', logout);
 
-// DASHBOARD: Accessible by all staff roles, but logic will filter data based on req.user.role
+// Dashbaord
 
 router.get('/dashboard', authorize('Receptionist', 'Nurse', 'Doctor', 'Accountant'), (req, res) => {
   res.json({ 
