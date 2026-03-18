@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 
 
 //  Error handler
-app.use(errorHandler);
+// app.use(errorHandler);
 
 
 
